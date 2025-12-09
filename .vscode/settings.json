@@ -10,7 +10,7 @@
             "server": "localhost",
             "port": 3306,
             "driver": "MySQL",
-            "name": "bankly_v2",
+            "name": "bankly v2",
             "database": "bankly_v2",
             "username": "root"
         }
