@@ -41,3 +41,6 @@ CREATE TABLE IF NOT EXISTS transactions (
     account_id INT NOT NULL,
     FOREIGN KEY (account_id) REFERENCES comptes(id)
 );
+
+--@block
+ALTER TABLE utilisateurs role ENUM('Controleur' , 'Adminasteur' , 'Client');

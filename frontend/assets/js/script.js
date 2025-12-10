@@ -1,3 +1,3 @@
-import {globalEvent} from './events.js';
+import {setupEvent} from './events.js';
 
-globalEvent();
+setupEvent();

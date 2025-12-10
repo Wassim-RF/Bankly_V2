@@ -6,7 +6,7 @@
     <?php
         include 'frontend/layout/navbar.php';
     ?>
-    <main class="bg-[#F9FAFB] w-[85%] min-h-screen absolute left-[15%]">
+    <main class="bg-[#F9FAFB] w-[85%] min-h-screen absolute left-[15%]" id="dashboard_main">
         <?php 
             include 'frontend/pages/main/dashboard.php';
         ?>
@@ -14,5 +14,5 @@
     <?php
         include 'frontend/layout/footer.php';
     ?>
-    <script src="frontend/asstes/js/script.js"></script>
+    <script type="module" src="frontend/assets/js/script.js"></script>
 </body>
