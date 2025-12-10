@@ -480,11 +480,17 @@
   .fill-\[\#000000\] {
     fill: #000000;
   }
+  .fill-\[\#\] {
+    fill: #;
+  }
   .fill-\[\#ffffff\] {
     fill: #ffffff;
   }
   .stroke-\[\#000000\] {
     stroke: #000000;
+  }
+  .stroke-\[\#ffffff\] {
+    stroke: #ffffff;
   }
   .p-\[2\%\] {
     padding: 2%;

@@ -1,4 +1,4 @@
-<section class="p-[4%] flex flex-col gap-14" id="dashpoar_page">
+<section class="p-[4%] flex flex-col gap-14" id="dashboard_page">
     <div class="flex items-center justify-between">
         <div class="flex flex-col gap-1.5">
             <h1 class="text-4xl font-bold">Dashboard</h1>

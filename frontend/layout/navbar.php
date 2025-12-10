@@ -27,28 +27,28 @@
                 </div>
                 <span class="navBar_button-text hidden group-hover:block arrow_text">></span>
             </button>
-            <button class="group flex flex-row items-center justify-between gap-2.5 cursor-pointer py-2 w-[85%] pl-2 pr-2 rounded-2xl hover:bg-[rgba(192,192,192,0.2)]" id="clients_section--button">
+            <button class="group flex flex-row items-center justify-between gap-2.5 cursor-pointer py-2 w-[85%] pl-2 pr-2 rounded-2xl hover:bg-[rgba(192,192,192,0.2)]" id="clients_section--button--nav">
                 <div class="flex gap-2.5">
                     <svg class="fill-[#000000]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 56 56"><path d="M38.446 29.232c4.786 0 8.686-4.263 8.686-9.45c0-5.128-3.88-9.19-8.686-9.19c-4.766 0-8.687 4.122-8.687 9.23c.02 5.167 3.921 9.41 8.687 9.41m-23.164.442c4.142 0 7.54-3.72 7.54-8.284c0-4.464-3.358-8.063-7.54-8.063c-4.142 0-7.56 3.66-7.54 8.103c.02 4.545 3.398 8.244 7.54 8.244m23.164-3.478c-2.936 0-5.45-2.815-5.45-6.374c0-3.5 2.474-6.193 5.45-6.193c2.996 0 5.449 2.654 5.449 6.152c0 3.56-2.473 6.415-5.449 6.415m-23.164.482c-2.453 0-4.544-2.352-4.544-5.248c0-2.835 2.07-5.107 4.544-5.107c2.533 0 4.564 2.232 4.564 5.067c0 2.936-2.091 5.288-4.564 5.288M4.102 48.113h15.785c-.966-.543-1.71-1.75-1.569-2.976H3.6c-.402 0-.603-.16-.603-.543c0-4.986 5.69-9.651 12.266-9.651c2.533 0 4.805.603 6.756 1.749a10.463 10.463 0 0 1 2.272-2.131c-2.594-1.71-5.71-2.594-9.028-2.594C6.837 31.967 0 38.079 0 44.775c0 2.232 1.367 3.338 4.102 3.338m21.716 0h25.256c3.337 0 4.926-1.005 4.926-3.217c0-5.268-6.656-12.89-17.554-12.89c-10.919 0-17.574 7.622-17.574 12.89c0 2.212 1.588 3.217 4.946 3.217m-.965-3.036c-.523 0-.744-.14-.744-.563c0-3.298 5.107-9.47 14.337-9.47c9.21 0 14.316 6.172 14.316 9.47c0 .422-.2.563-.724.563Z"/></svg>
                     <span class="navBar_button-text">Clients</span>
                 </div>
                 <span class="navBar_button-text hidden group-hover:block arrow_text">></span>
             </button>
-            <button class="group flex flex-row items-center justify-between gap-2.5 cursor-pointer py-2 w-[85%] pl-2 pr-2 rounded-2xl hover:bg-[rgba(192,192,192,0.2)]" id="comptes_section--button">
+            <button class="group flex flex-row items-center justify-between gap-2.5 cursor-pointer py-2 w-[85%] pl-2 pr-2 rounded-2xl hover:bg-[rgba(192,192,192,0.2)]" id="comptes_section--button--nav">
                 <div class="flex gap-2.5">
                     <svg class="fill-[#000000]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 26 26"><path d="M16.688 0c-.2.008-.393.044-.594.094L2.5 3.406C.892 3.8-.114 5.422.281 7.031l1.906 7.782A2.99 2.99 0 0 0 4 16.875V15c0-2.757 2.243-5 5-5h12.594l-1.875-7.719A3.004 3.004 0 0 0 16.687 0zm1.218 4.313l.813 3.406l-3.375.812l-.844-3.375l3.406-.843zM9 12c-1.656 0-3 1.344-3 3v8c0 1.656 1.344 3 3 3h14c1.656 0 3-1.344 3-3v-8c0-1.656-1.344-3-3-3H9zm0 1.594h14c.771 0 1.406.635 1.406 1.406v1H7.594v-1c0-.771.635-1.406 1.406-1.406zM7.594 19h16.812v4c0 .771-.635 1.406-1.406 1.406H9A1.414 1.414 0 0 1 7.594 23v-4z"/></svg>
                     <span class="navBar_button-text">Comptes</span>
                 </div>
                 <span class="navBar_button-text hidden group-hover:block arrow_text">></span>
             </button>
-            <button class="group flex flex-row items-center justify-between gap-2.5 cursor-pointer py-2 w-[85%] pl-2 pr-2 rounded-2xl hover:bg-[rgba(192,192,192,0.2)]" id="transactions_section--button">
+            <button class="group flex flex-row items-center justify-between gap-2.5 cursor-pointer py-2 w-[85%] pl-2 pr-2 rounded-2xl hover:bg-[rgba(192,192,192,0.2)]" id="transactions_section--button--nav">
                 <div class="flex gap-2.5">
                     <svg class="stroke-[#000000]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke-width="2" d="M2 7h18m-4-5l5 5l-5 5m6 5H4m4-5l-5 5l5 5"/></svg>
                     <span class="navBar_button-text">Transactions</span>
                 </div>
                 <span class="navBar_button-text hidden group-hover:block arrow_text">></span>
             </button>
-            <button class="group flex flex-row items-center justify-between gap-2.5 cursor-pointer py-2 w-[85%] pl-2 pr-2 rounded-2xl hover:bg-[rgba(192,192,192,0.2)]" id="history_section--button">
+            <button class="group flex flex-row items-center justify-between gap-2.5 cursor-pointer py-2 w-[85%] pl-2 pr-2 rounded-2xl hover:bg-[rgba(192,192,192,0.2)]" id="history_section--button--nav">
                 <div class="flex gap-2.5">
                     <svg class="fill-[#000000]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M17 3.3C13.1 1.1 8.3 1.8 5.1 4.8V3c0-.6-.4-1-1-1s-1 .4-1 1v4.5c0 .6.4 1 1 1h4.5c.6 0 1-.4 1-1s-.4-1-1-1H6.2C7.7 4.9 9.8 4 12 4c4.4 0 8 3.6 8 8s-3.6 8-8 8s-8-3.6-8-8c0-.6-.4-1-1-1s-1 .4-1 1c0 5.5 4.5 10 10 10c3.6 0 6.9-1.9 8.7-5c2.7-4.8 1.1-10.9-3.7-13.7zM12 8c-.6 0-1 .4-1 1v3c0 .6.4 1 1 1h2c.6 0 1-.4 1-1s-.4-1-1-1h-1V9c0-.6-.4-1-1-1z"/></svg>
                     <span class="navBar_button-text">Historique</span>

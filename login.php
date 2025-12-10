@@ -1,5 +1,6 @@
 <?php 
     require 'backend/config.php';
+    require 'backend//database.php';
     include 'frontend/layout/header.php'
 ?>
 <body class="flex flex-row overflow-hidden">
