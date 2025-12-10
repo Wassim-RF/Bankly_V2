@@ -1,43 +1,43 @@
-CREATE TABLE IF NOT EXISTS utilisateur (
+CREATE TABLE IF NOT EXISTS utilisateurs (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    full_name VARCHAR(32) UNIQUE,
-    email VARCHAR(50) UNIQUE,
-    password VARCHAR(8)
+    full_name VARCHAR(32) UNIQUE NOT NULL,
+    email VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(8) NOT NULL
 );
 
 --@block
 CREATE TABLE IF NOT EXISTS clients (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    full_name VARCHAR(32) UNIQUE,
-    email VARCHAR(50) UNIQUE,
-    phone_number VARCHAR(10) UNIQUE,
-    creation_date DATE,
-    adresse VARCHAR(100),
-    cin VARCHAR(10) UNIQUE,
-    utilisateur_id INT,
-    FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id)
+    full_name VARCHAR(32) UNIQUE NOT NULL,
+    email VARCHAR(50) UNIQUE NOT NULL,
+    phone_number VARCHAR(10) UNIQUE NOT NULL,
+    creation_date DATETIME NOT NULL,
+    adresse VARCHAR(100) NOT NULL,
+    cin VARCHAR(10) UNIQUE NOT NULL,
+    utilisateur_id INT NOT NULL,
+    FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id)
 );
 
 --@block
-CREATE TABLE IF NOT EXISTS accounts (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    account_number INT(14) UNIQUE,
-    account_type ENUM('Checking' , 'Savings' , 'Business'),
-    solde DECIMAL(12,2),
-    account_statue ENUM('Actif' , 'Inactif' , 'Blocked'),
-    creation_date DATE,
-    utilisateur_id INT,
-    client_id INT,
-    FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id),
+CREATE TABLE IF NOT EXISTS comptes (
+    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    account_number INT(14) UNIQUE NOT NULL,
+    account_type ENUM('Courant' , 'Epargne' , 'Professionnel' , 'Jeune') NOT NULL,
+    solde DECIMAL(12,2) NOT NULL,
+    account_statue ENUM('Actif' , 'Inactif' , 'Blocked') NOT NULL,
+    creation_date DATETIME NOT NULL,
+    utilisateur_id INT NOT NULL,
+    client_id INT NOT NULL,
+    FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id),
     FOREIGN KEY (client_id) REFERENCES clients(id)
 );
 
 --@block
 CREATE TABLE IF NOT EXISTS transactions (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    transaction_type ENUM('Credit' , 'Debit'),
-    amout DECIMAL(12,2),
-    transaction_date DATE,
-    account_id INT,
-    FOREIGN KEY (account_id) REFERENCES accounts(id)
+    transaction_type ENUM('Depot' , 'Retrait') NOT NULL,
+    amout DECIMAL(12,2) NOT NULL,
+    transaction_date DATETIME NOT NULL,
+    account_id INT NOT NULL,
+    FOREIGN KEY (account_id) REFERENCES comptes(id)
 );
