@@ -1,8 +1,13 @@
 <?php
     require 'config.php';
 
-    $DB_Connection = new mysqli($DB_HOST , $DB_USER , $DB_PASS , $DB_NAME , $DB_PORT);
+    try {
+        $dsn = "mysql:host=$DB_HOST;dbname=$DB_NAME;port=$DB_PORT;charset=utf8";
+        $pdo = new PDO($dsn, $DB_USER, $DB_PASS);
 
-    if ($DB_Connection->connect_errno) {
-        die("Errore : " . $DB_Connection->connect_error);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+
+    } catch (PDOException $e) {
+        die("Connection failed: " . $e->getMessage());
     }

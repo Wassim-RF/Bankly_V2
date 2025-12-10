@@ -9,5 +9,5 @@
     $DB_HOST = '127.0.0.1';
     $DB_USER = 'root';
     $DB_PASS = '1980';
-    $DB_NAME = 'Bankly V2';
+    $DB_NAME = 'bankly_v2';
     $DB_PORT = 3306;

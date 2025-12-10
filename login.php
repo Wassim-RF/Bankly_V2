@@ -1,7 +1,24 @@
-<?php 
+<?php
     require 'backend/config.php';
-    require 'backend//database.php';
-    include 'frontend/layout/header.php'
+    include 'backend/database.php';
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $utilisateurEmail = $_POST['utilisatateur_email'];
+        $utilisateurPassword = $_POST['utilisatateur_password'];
+
+        $slu = $pdo->prepare("SELECT * FROM utilisateurs WHERE email = ?");
+        $slu->execute([$utilisateurEmail]);
+        $utilisateur = $slu->fetch();
+
+        if ($utilisateur) {
+            if ($utilisateurPassword === $utilisateur['password']) {
+                header("Location: dashboard.php");
+                exit();
+            }
+        }
+    }
+
+    include 'frontend/layout/header.php';
 ?>
 <body class="flex flex-row overflow-hidden">
     <div class="w-[50%] min-h-screen bg-linear-to-br from-[#0A1A33] via-[#0E3A7C] to-[#1BA3FF] flex justify-center items-center">

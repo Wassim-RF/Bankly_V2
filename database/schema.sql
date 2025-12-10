@@ -2,7 +2,8 @@ CREATE TABLE IF NOT EXISTS utilisateurs (
     id INT AUTO_INCREMENT PRIMARY KEY,
     full_name VARCHAR(32) UNIQUE NOT NULL,
     email VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(8) NOT NULL
+    password VARCHAR(8) NOT NULL,
+    role ENUM('Controleur' , 'Adminasteur' , 'Client') NOT NULL
 );
 
 --@block
@@ -43,4 +44,4 @@ CREATE TABLE IF NOT EXISTS transactions (
 );
 
 --@block
-ALTER TABLE utilisateurs role ENUM('Controleur' , 'Adminasteur' , 'Client');
+INSERT INTO utilisateurs (full_name , email , password , role) VALUES ("Wassim Rifi" , "wassimrifi@bankly.com" , "rifi1234" , "Controleur");

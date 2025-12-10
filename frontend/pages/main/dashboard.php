@@ -4,7 +4,7 @@
             <h1 class="text-4xl font-bold">Dashboard</h1>
             <p class="text-[#45557F]">Welcome <?php echo "Utilisateur Name" ?>, Gérer votre client et ses comptes et transactions</p>
         </div>
-        <div class="w-[100px] h-[35px] rounded-md bg-green-500 text-white text-[19px] flex items-center justify-center shadow-md">
+        <div class="w-[100px] h-[35px] rounded-md bg-green-500 text-white text-[19px] flex items-center justify-center shadow-md font-semibold">
             Controleur
         </div>
     </div>

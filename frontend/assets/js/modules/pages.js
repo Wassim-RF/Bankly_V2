@@ -23,7 +23,7 @@ export function dashboardPage() {
     transaction_page.classList.replace("flex" , "hidden");
     history_page.classList.replace("flex" , "hidden");
 
-    dashboardLogo.classList.replace("fill-[#000000" , "fill-[#ffffff]");
+    dashboardLogo.classList.replace("fill-[#000000]", "fill-[#ffffff]");
     clientsLogo.classList.replace("fill-[#ffffff]" , "fill-[#000000]");
     comptesLogo.classList.replace("fill-[#ffffff]" , "fill-[#000000]");
     transactionsLogo.classList.replace("stroke-[#ffffff]" , "stroke-[#000000]");
