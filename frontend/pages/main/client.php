@@ -8,4 +8,7 @@
             + Ajouter un client
         </button>
     </div>
+    <?php
+        include __DIR__ . '/../clients/list.php';
+    ?>
 </section>

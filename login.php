@@ -13,6 +13,12 @@
         if ($utilisateur) {
             if ($utilisateurPassword === $utilisateur['password']) {
                 header("Location: dashboard.php");
+                session_start();
+                $_SESSION['utilisateur'] = [
+                    'id' => $utilisateur['id'],
+                    'full_name' => $utilisateur['full_name'],
+                    'role' => $utilisateur['role']
+                ];
                 exit();
             }
         }
