@@ -12,13 +12,13 @@
 
         if ($utilisateur) {
             if ($utilisateurPassword === $utilisateur['password']) {
-                header("Location: dashboard.php");
                 session_start();
                 $_SESSION['utilisateur'] = [
                     'id' => $utilisateur['id'],
                     'full_name' => $utilisateur['full_name'],
                     'role' => $utilisateur['role']
                 ];
+                header("Location: dashboard.php");
                 exit();
             }
         }
@@ -56,14 +56,14 @@
                     <label for="utilisatateur_email" class="font-semibold">Email :</label>
                     <div class="p-[2%] w-full h-[50px] border border-[#c0c0c0] rounded-2xl bg-[#F8FAFC] flex items-center gap-2.5">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16"><path fill="#c0c0c0" fill-rule="evenodd" d="M14.95 3.684L8.637 8.912a1 1 0 0 1-1.276 0l-6.31-5.228A.999.999 0 0 0 1 4v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4a.999.999 0 0 0-.05-.316M2 2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2m-.21 1l5.576 4.603a1 1 0 0 0 1.27.003L14.268 3z"/></svg>
-                        <input type="email" name="utilisatateur_email" placeholder="agent@example.com" class="outline-0 w-full">
+                        <input type="email" name="utilisatateur_email" placeholder="agent@example.com" class="outline-0 w-full" require>
                     </div>
                 </div>
                 <div class="flex flex-col gap-2.5">
                     <label for="utilisatateur_password" class="font-semibold">Mot de passe :</label>
                     <div class="p-[2%] w-full h-[50px] border border-[#c0c0c0] rounded-2xl bg-[#F8FAFC] flex items-center gap-2.5">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#c0c0c0" d="M17 9V7A5 5 0 0 0 7 7v2a3 3 0 0 0-3 3v7a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-7a3 3 0 0 0-3-3ZM9 7a3 3 0 0 1 6 0v2H9Zm9 12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1Z"/></svg>
-                        <input type="password" name="utilisatateur_password" placeholder="********" class="outline-0 w-full">
+                        <input type="password" name="utilisatateur_password" placeholder="********" class="outline-0 w-full" required>
                     </div>
                 </div>
                 <div class="flex items-center gap-2.5">
