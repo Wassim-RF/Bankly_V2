@@ -126,6 +126,7 @@
                                         </button>
                                     </a>
                                     <form action="frontend/pages/clients/delete.php" method="post">
+                                        <input type="hidden" name="id" value="<?= $client['id'] ?>">
                                         <button class="p-2 bg-red-600 rounded-lg hover:bg-red-700">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
                                         </button>
