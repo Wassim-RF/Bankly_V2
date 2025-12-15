@@ -18,4 +18,5 @@ export function setupEvent() {
     document.getElementById("history_section--button--nav").addEventListener("click" , historiquePage);
     document.getElementById("add_client--button").addEventListener("click" , showReturnAddClient);
     document.getElementById("return_add_client--button").addEventListener("click" , showReturnAddClient);
+    document.getElementById("cancel_ajoute_client--Button").addEventListener("click" , showReturnAddClient);
 }

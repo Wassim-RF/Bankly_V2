@@ -1,3 +1,10 @@
+<?php
+    if (!isset($_SESSION['utilisateur'])) {
+        header('Location: index.php');
+        exit();
+    }
+?>
+
 <div class="hidden flex-col p-[4%] gap-14 w-full min-h-screen" id="add_client--div">
     <div class="flex gap-5 items-center">
         <button class="flex cursor-pointer items-center hover:bg-[rgba(192,192,192,0.2)] h-[50%] rounded-md" id="return_add_client--button">
@@ -11,7 +18,7 @@
         </div>
     </div>
     <div>
-        <form action="add.php" method="post" class="w-full flex flex-col items-center bg-white p-[2%] rounded-2xl gap-10">
+        <form method="post" class="w-full flex flex-col items-center bg-white p-[2%] rounded-2xl gap-10">
             <div class="flex items-center justify-start w-full gap-7">
                 <div>
                     <div class="border border-dashed border-[#c0c0c0] flex items-center justify-center w-[110px] h-[110px] rounded-2xl bg-[rgba(192,192,192,0.2)]">
@@ -80,7 +87,7 @@
                         <div class="w-full border-2 border-[#c0c0c0] rounded-2xl p-[2%] flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16"><path fill="#000000" fill-rule="evenodd" d="M11.5 1a.5.5 0 0 1 0-1h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V1.707l-3.45 3.45A4 4 0 0 1 8.5 10.97V13H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V14H6a.5.5 0 0 1 0-1h1.5v-2.03a4 4 0 1 1 3.471-6.648L14.293 1H11.5zm-.997 4.346a3 3 0 1 0-5.006 3.309a3 3 0 0 0 5.006-3.31z"/></svg>
                             <select class="w-full pl-[2%] outline-0" required name="upload_client--Gendre--input" id="upload_client--Gendre--input">
-                                <option>Select le genre du client</option>
+                                <option value="" disabled selected>Select le genre du client</option>
                                 <option value="Homme">Homme</option>
                                 <option value="Femme">Femme</option>
                             </select>
@@ -95,7 +102,7 @@
                     </div>
                 </div>
                 <div class="flex gap-3 mt-4 justify-end">
-                    <button type="reset" class="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-100 active:scale-95 transition-all duration-200 cursor-pointer">
+                    <button type="reset" class="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-100 active:scale-95 transition-all duration-200 cursor-pointer"  id="cancel_ajoute_client--Button">
                         Cancel
                     </button>
                     <button type="submit" class="px-4 py-2 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 active:scale-95 shadow-sm hover:shadow transition-all duration-200 cursor-pointer">
@@ -108,7 +115,32 @@
 </div>
 
 <?php
+    require 'backend/config.php';
+    include 'backend/database.php';
+
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
-        
+        $client_fullName = trim($_POST['upload_client--fullName--input']);
+        $client_CIN = trim($_POST['upload_client--CIN--input']);
+        $client_email = trim($_POST['upload_client--Email--input']);
+        $client_phoneNumber = trim($_POST['upload_client--phoneNumber--input']);
+        $client_birthday = trim($_POST['upload_client--Birthday--input']);
+        $client_gender = trim($_POST['upload_client--Gendre--input']);
+        $client_adresse = trim($_POST['upload_client--Adresse--input']);
+
+        try {
+            $stmt = $pdo->prepare("INSERT INTO clients (full_name , email , phone_number , adresse , cin , gendre , birthday , utilisateur_id) VALUES (:fullname , :email , :phoneNumber , :adresse , :CIN , :gendre , :birthday , :utilisateurID)");
+            $stmt->execute([
+                'fullname' => $client_fullName,
+                'email' => $client_email,
+                'phoneNumber' => $client_phoneNumber,
+                'adresse' => $client_adresse,
+                'CIN' => $client_CIN,
+                'gendre' => $client_gender,
+                'birthday' => $client_birthday,
+                'utilisateurID' => $_SESSION['utilisateur']['id']
+            ]);
+        } catch(PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
     }
 ?>

@@ -51,7 +51,7 @@
             <p class="text-md text-[#45557F]">Entré a votre space de travaille</p>
         </div>
         <div class="w-full flex flex-col justify-center items-center">
-            <form action="login.php" method="post" class="bg-[#ffffff] shadow-[0.5px_0.5px_5px_#c0c0c0] h-[70%] w-[95%] rounded-3xl p-[5%] flex flex-col gap-10">
+            <form method="post" class="bg-[#ffffff] shadow-[0.5px_0.5px_5px_#c0c0c0] h-[70%] w-[95%] rounded-3xl p-[5%] flex flex-col gap-10">
                 <div class="flex flex-col gap-2.5">
                     <label for="utilisatateur_email" class="font-semibold">Email :</label>
                     <div class="p-[2%] w-full h-[50px] border border-[#c0c0c0] rounded-2xl bg-[#F8FAFC] flex items-center gap-2.5">
