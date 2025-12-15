@@ -16,7 +16,9 @@
                 </div>
                 <p>Client Total</p>
             </div>
-            <p>0</p>
+            <p><?php
+
+            ?></p>
         </div>
         <div class="w-full h-[200px] bg-white border border-[#c0c0c0] rounded-2xl shadow-md hover:shadow-lg shadow-[#c0c0c0] p-[5%] flex flex-col items-center"></div>
         <div class="w-full h-[200px] bg-white border border-[#c0c0c0] rounded-2xl shadow-md hover:shadow-lg shadow-[#c0c0c0] p-[5%] flex flex-col items-center"></div>

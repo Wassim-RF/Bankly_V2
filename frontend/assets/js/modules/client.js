@@ -12,6 +12,7 @@ export function showReturnAddClient() {
 }
 
 export function editCLient(id) {
+    console.log("Clicked");
     const add_clientDiv = document.getElementById("add_client--div");
     const show_clientDiv = document.getElementById("show_client--div");
     const edit_clientDiv = document.getElementById("edit_client--div");
@@ -20,7 +21,7 @@ export function editCLient(id) {
     add_clientDiv.classList.replace("flex" , "hidden");
     edit_clientDiv.classList.replace("hidden" , "flex");
 
-    fetch(`frontend/pages/clients/client.php?id=${id}`)
+    fetch(`/frontend/pages/clients/client.php?id=${id}`)
     .then(res => res.text())
     .then(html => {document.getElementById('edit_client--div').innerHTML = html;});
 }

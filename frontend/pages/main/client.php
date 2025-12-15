@@ -14,6 +14,6 @@
         ?>
     </div>
     <?php
-        include __DIR__ . '/../clients/add.php'
+        include __DIR__ . '/../clients/add.php';
     ?>
 </section>
