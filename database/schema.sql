@@ -24,11 +24,11 @@ CREATE TABLE IF NOT EXISTS clients (
 --@block
 CREATE TABLE IF NOT EXISTS comptes (
     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    account_number INT(14) UNIQUE NOT NULL,
+    account_number VARCHAR(14) UNIQUE NOT NULL,
     account_type ENUM('Courant' , 'Epargne' , 'Professionnel' , 'Jeune') NOT NULL,
     solde DECIMAL(12,2) NOT NULL,
     account_statue ENUM('Actif' , 'Inactif' , 'Blocked') NOT NULL,
-    creation_date DATETIME NOT NULL,
+    creation_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     utilisateur_id INT NOT NULL,
     client_id INT NOT NULL,
     FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id),
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS transactions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     transaction_type ENUM('Depot' , 'Retrait') NOT NULL,
     amout DECIMAL(12,2) NOT NULL,
-    transaction_date DATETIME NOT NULL,
+    transaction_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     account_id INT NOT NULL,
     FOREIGN KEY (account_id) REFERENCES comptes(id)
 );
@@ -50,3 +50,9 @@ INSERT INTO utilisateurs (full_name , email , password , role) VALUES ("Wassim R
 
 --@block
 INSERT INTO utilisateurs (full_name , email , password , role) VALUES ("Sara abbih" , "saraabbih@bankly.com" , "abbih123" , "Controleur");
+
+--@block
+DROP TABLE transactions;
+DROP TABLE comptes;
+DROP TABLE clients;
+DROP TABLE utilisateurs;

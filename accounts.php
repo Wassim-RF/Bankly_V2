@@ -2,6 +2,11 @@
     session_start();
     require 'backend/config.php';
     require 'backend/database.php';
+    if (isset($_SESSION['utilisateur'])) {
+        $slu = $pdo->prepare("SELECT co.id , co.account_number , co.solde , c.full_name AS client_fullName FROM comptes co Join clients c ON client_id = c.id WHERE co.utilisateur_id = ?");
+        $slu->execute([$_SESSION['utilisateur']['id']]);
+        $comptes = $slu->fetchAll();
+    }
     include 'frontend/layout/header.php';
 ?>
 <body class="flex">
@@ -68,9 +73,57 @@
             </form>
         </footer>
     </nav>
-    <main class="bg-[#F9FAFB] w-[85%] min-h-screen absolute left-[15%] p-[5%] flex flex-col gap-12"></main>
-    <?php
-        include 'frontend/layout/footer.php';
-    ?>
+    <main class="bg-[#F9FAFB] w-[85%] min-h-screen absolute left-[15%] p-[3%] flex flex-col gap-12">
+        <div class="p-[4%] flex flex-col gap-14 w-full" id="show_client--div">
+            <div class="flex items-center justify-between">
+                <div class="flex flex-col gap-1.5">
+                    <h1 class="text-4xl font-bold">Comptes</h1>
+                    <p class="text-[#45557F]">Gérer les comptes de votre clients. Ajouter, supprimer, mettez a jour.</p>
+                </div>
+                <a href="frontend/pages/accounts/add.php" class="w-[220px] h-11 rounded-md bg-green-500 text-white text-[19px] flex items-center justify-center shadow-md cursor-pointer font-semibold hover:scale-[1.03] hover:shadow-xl">
+                    <button class="cursor-pointer">
+                        + Ajouter un comptes
+                    </button>
+                </a>
+            </div>
+        </div>
+        <div class="overflow-x-auto rounded-2xl border border-gray-300">
+            <table class="w-full border-collapse table-fixed overflow-x-auto rounded-2xl border border-gray-300">
+                <thead class="bg-white border-b border-gray-300">
+                    <tr class="h-[50px] text-left">
+                        <th class="px-4 py-2 w-1/4">Numero de compte</th>
+                        <th class="px-4 py-2 w-1/4">Tetulaire du compte</th>
+                        <th class="px-4 py-2 w-1/4">Amount</th>
+                        <th class="px-4 py-2 w-1/4">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody class="bg-[rgba(192,192,192,0.2)]">
+                    <?php foreach ($comptes as $compte): ?>
+                        <tr class="border-b border-gray-300 hover:bg-gray-200">
+                            <td class="px-4 py-3"><?= $compte['account_number'] ?></td>
+                            <td class="px-4 py-3"><?= htmlspecialchars($compte['client_fullName']) ?></td>
+                            <td class="px-4 py-3"><?= htmlspecialchars($compte['solde']) ?></td>
+                            <td class="px-4 py-3">
+                                <div class="flex items-center justify-start gap-2">
+                                    <a href="frontend/pages/accounts/edit.php?id=<?= $compte['id'] ?>">
+                                        <button class="p-2 bg-blue-600 rounded-lg hover:bg-blue-700">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.385 6.585a2.1 2.1 0 0 0-2.97-2.97L9 12v3h3l8.385-8.415z"/><path d="M16 5l3 3"/></svg>
+                                        </button>
+                                    </a>
+                                    <form action="frontend/pages/accounts/delete.php" method="post">
+                                        <input type="hidden" name="id" value="<?= $compte['id'] ?>">
+                                        <button class="p-2 bg-red-600 rounded-lg hover:bg-red-700">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </main>
     <script type="module" src="frontend\assets\js\script.js"></script>
 </body>
