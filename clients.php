@@ -105,8 +105,8 @@
             <table class="w-full border-collapse table-fixed overflow-x-auto rounded-2xl border border-gray-300">
                 <thead class="bg-white border-b border-gray-300">
                     <tr class="h-[50px] text-left">
-                        <th class="px-4 py-2 w-1/4">Id</th>
                         <th class="px-4 py-2 w-1/4">Name</th>
+                        <th class="px-4 py-2 w-1/4">Date de joindre</th>
                         <th class="px-4 py-2 w-1/4">CIN</th>
                         <th class="px-4 py-2 w-1/4">Action</th>
                     </tr>
@@ -115,9 +115,9 @@
                 <tbody class="bg-[rgba(192,192,192,0.2)]">
                     <?php foreach ($clients as $client): ?>
                         <tr class="border-b border-gray-300 hover:bg-gray-200">
-                            <td class="px-4 py-3"><?= $client['id'] ?></td>
-                            <td class="px-4 py-3"><?= htmlspecialchars($client['full_name']) ?></td>
-                            <td class="px-4 py-3"><?= htmlspecialchars($client['cin']) ?></td>
+                            <td class="px-4 py-3"><?= $client['full_name'] ?></td>
+                            <td class="px-4 py-3"><?= $client['creation_date'] ?></td>
+                            <td class="px-4 py-3"><?= $client['cin'] ?></td>
                             <td class="px-4 py-3">
                                 <div class="flex items-center justify-start gap-2">
                                     <a href="frontend/pages/clients/edit.php?id=<?= $client['id'] ?>">

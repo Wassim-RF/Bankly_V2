@@ -3,7 +3,7 @@
     require 'backend/config.php';
     require 'backend/database.php';
     if (isset($_SESSION['utilisateur'])) {
-        $slu = $pdo->prepare("SELECT co.id , co.account_number , co.solde , c.full_name AS client_fullName FROM comptes co Join clients c ON client_id = c.id WHERE co.utilisateur_id = ?");
+        $slu = $pdo->prepare("SELECT co.id , co.account_number , co.solde , co.account_statue , c.full_name AS client_fullName FROM comptes co Join clients c ON client_id = c.id WHERE co.utilisateur_id = ?");
         $slu->execute([$_SESSION['utilisateur']['id']]);
         $comptes = $slu->fetchAll();
     }
@@ -91,10 +91,11 @@
             <table class="w-full border-collapse table-fixed overflow-x-auto rounded-2xl border border-gray-300">
                 <thead class="bg-white border-b border-gray-300">
                     <tr class="h-[50px] text-left">
-                        <th class="px-4 py-2 w-1/4">Numero de compte</th>
-                        <th class="px-4 py-2 w-1/4">Tetulaire du compte</th>
-                        <th class="px-4 py-2 w-1/4">Amount</th>
-                        <th class="px-4 py-2 w-1/4">Action</th>
+                        <th class="px-4 py-2 w-1/5">Numero de compte</th>
+                        <th class="px-4 py-2 w-1/5">Tetulaire du compte</th>
+                        <th class="px-4 py-2 w-1/5">Amount</th>
+                        <th class="px-4 py-2 w-1/5">Statue</th>
+                        <th class="px-4 py-2 w-1/5">Action</th>
                     </tr>
                 </thead>
 
@@ -102,8 +103,19 @@
                     <?php foreach ($comptes as $compte): ?>
                         <tr class="border-b border-gray-300 hover:bg-gray-200">
                             <td class="px-4 py-3"><?= $compte['account_number'] ?></td>
-                            <td class="px-4 py-3"><?= htmlspecialchars($compte['client_fullName']) ?></td>
-                            <td class="px-4 py-3"><?= htmlspecialchars($compte['solde']) ?></td>
+                            <td class="px-4 py-3"><?= $compte['client_fullName'] ?></td>
+                            <td class="px-4 py-3"><?= $compte['solde'] ?></td>
+                            <td class="px-4 py-3">
+                                <?php
+                                    if ($compte['account_statue'] === 'Actif') {
+                                        echo '<span class="inline-flex items-center gap-2 px-3 py-1 text-sm font-semibold text-green-700 bg-green-100 rounded-full"><span class="w-2 h-2 bg-green-500 rounded-full"></span>Active</span>';
+                                    } elseif ($compte['account_statue'] === 'Inactif') {
+                                        echo '<span class="inline-flex items-center gap-2 px-3 py-1 text-sm font-semibold text-yellow-700 bg-yellow-100 rounded-full"><span class="w-2 h-2 bg-yellow-500 rounded-full"></span>Inactive</span>';
+                                    } elseif ($compte['account_statue'] === 'Blocked') {
+                                        echo '<span class="inline-flex items-center gap-2 px-3 py-1 text-sm font-semibold text-red-700 bg-red-100 rounded-full"><span class="w-2 h-2 bg-red-500 rounded-full"></span>Blocked</span>';
+                                    }
+                                ?>
+                            </td>
                             <td class="px-4 py-3">
                                 <div class="flex items-center justify-start gap-2">
                                     <a href="frontend/pages/accounts/edit.php?id=<?= $compte['id'] ?>">
