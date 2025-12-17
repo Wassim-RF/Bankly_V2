@@ -2,6 +2,48 @@
     session_start();
     require 'backend/config.php';
     require 'backend/database.php';
+
+    if(!isset($_SESSION['utilisateur'])) {
+        header('Loacation: /index.php');
+        exit();
+    }
+
+    $stmt = $pdo->prepare("SELECT co.* , c.full_name AS client_fullName FROM comptes co JOIN clients c ON co.client_id = c.id WHERE co.utilisateur_id = ?");
+    $stmt->execute([$_SESSION['utilisateur']['id']]);
+    $comptes = $stmt->fetchAll();
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $transactionTitulaire = $_POST['upload_transaction_titulaire--input'];
+        $transactionAmount = $_POST['upload_transaction_amount--input'];
+        $transactionDescription = $_POST['upload_transaction_description--input'];
+        if ($_POST['upload_transaction_type--input'] === "Depot") {
+            $transactionType = 'Depot';
+            $accountNewBalanceDR = $transactionAmount;
+        } elseif ($_POST['upload_transaction_type--input'] === "Retrait") {
+            $transactionType = 'Retrait';
+            $accountNewBalanceDR = -$transactionAmount;
+        }
+        
+        try {
+            $utdb = $pdo->prepare("INSERT INTO transactions (transaction_type , amout , description , account_id) VALUES (:transactionType , :amount , :description , :accountId)");
+            $utdb->execute([
+                'transactionType' => $transactionType,
+                'amount' => $transactionAmount,
+                'description' => $transactionDescription,
+                'accountId' => $transactionTitulaire
+            ]);
+            $uamdb = $pdo->prepare("UPDATE comptes SET solde = solde + :newSolde WHERE id = :id");
+            $uamdb->execute([
+                'newSolde' => $accountNewBalanceDR,
+                'id' => $transactionTitulaire,
+            ]);
+            header('Location: transactions.php');
+        } catch (PDOException $e) {
+            header('Location: index.php');
+            exit();
+        }
+    }
+
     include 'frontend/layout/header.php';
 ?>
 <body class="flex">
@@ -68,7 +110,98 @@
             </form>
         </footer>
     </nav>
-    <main class="bg-[#F9FAFB] w-[85%] min-h-screen absolute left-[15%] p-[5%] flex flex-col gap-12"></main>
+    <main class="bg-[#F9FAFB] w-[85%] min-h-screen absolute left-[15%] p-[3%] flex flex-col">
+        <div class="p-[4%] flex flex-col gap-14 w-full" id="show_client--div">
+            <div class="flex items-center justify-between">
+                <div class="flex flex-col gap-1.5">
+                    <h1 class="text-4xl font-bold">Transactions</h1>
+                    <p class="text-[#45557F]">Gérer les transactions de votre client.</p>
+                </div>
+            </div>
+        </div>
+        <div class="flex gap-16">
+            <form method="post" class="w-1/2 flex flex-col items-center bg-white p-[2%] rounded-2xl gap-10">
+                <div class="w-full flex flex-col gap-10">
+                    <div class="flex items-center w-full justify-start gap-2.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#45557F" d="M20 2H10a3 3 0 0 0-3 3v7a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3Zm1 10a1 1 0 0 1-1 1H10a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1Zm-3.5-4a1.49 1.49 0 0 0-1 .39a1.5 1.5 0 1 0 0 2.22a1.5 1.5 0 1 0 1-2.61ZM16 17a1 1 0 0 0-1 1v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4h1a1 1 0 0 0 0-2H3v-1a1 1 0 0 1 1-1a1 1 0 0 0 0-2a3 3 0 0 0-3 3v7a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-1a1 1 0 0 0-1-1ZM6 18h1a1 1 0 0 0 0-2H6a1 1 0 0 0 0 2Z"/></svg>
+                        <p>Creez une transaction</p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-[5%]">
+                        <label class="cursor-pointer group">
+                            <input type="radio" name="upload_transaction_type--input" value="Depot" class="hidden peer" required>
+                            <div class="w-full h-40 flex flex-col gap-2.5 justify-center items-center border-2 border-[#c0c0c0] rounded-2xl text-gray-600 group-hover:bg-[rgba(192,192,192,0.2)] peer-checked:bg-green-50 peer-checked:border-green-500 peer-checked:text-green-500">
+                                <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" class="fill-black peer-checked:fill-green-500 group-hover:scale-[1.05]"><path fill-rule="evenodd" d="M13.762 5.865a.5.5 0 0 0 .231-.508l-.66-3.94a.5.5 0 0 0-.584-.409l-3.74.695a.5.5 0 0 0-.205.894l1.652 1.218L7.61 7.88L5.012 6.058a.625.625 0 0 0-.87.153l-4.03 5.752a.625.625 0 1 0 1.024.717l3.67-5.24l2.598 1.822a.625.625 0 0 0 .87-.154l3.187-4.55l1.741 1.284a.5.5 0 0 0 .559.023" clip-rule="evenodd"/></svg>
+                                <p class="font-semibold group-hover:scale-[1.05] peer-checked:scale-[1.05]">Depot</p>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer group">
+                            <input type="radio" name="upload_transaction_type--input" value="Retrait" class="hidden peer" required>
+                            <div class="w-full h-40 flex flex-col gap-2.5 justify-center items-center border-2 border-[#c0c0c0] rounded-2xl text-gray-600 group-hover:bg-[rgba(192,192,192,0.2)] peer-checked:bg-red-50 peer-checked:border-red-500 peer-checked:text-red-500">
+                                <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" class="fill-black group-hover:scale-[1.05]"><path fill-rule="evenodd" d="M1.137 1.32a.625.625 0 0 0-1.024.717l4.028 5.752a.625.625 0 0 0 .87.153l2.6-1.821l2.845 4.064l-1.652 1.218a.5.5 0 0 0 .206.894l3.74.695a.5.5 0 0 0 .584-.41l.66-3.939a.5.5 0 0 0-.79-.485l-1.741 1.284l-3.187-4.55a.625.625 0 0 0-.871-.154L4.806 6.56z" clip-rule="evenodd"/></svg>
+                                <p class="font-semibold group-hover:scale-[1.05] peer-checked:scale-[1.05]">Retrait</p>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="w-full flex flex-col gap-2.5">
+                        <label class="text-[17px] font-semibold">Titulaire du transaction <span class="text-red-600">*</span></label>
+                        <div class="w-full border-2 border-[#c0c0c0] rounded-2xl p-[2%] flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#000000" d="M14.5 3a2.5 2.5 0 1 0 0 5a2.5 2.5 0 0 0 0-5ZM10 5.5a4.5 4.5 0 0 1 6.5-4.032a4.5 4.5 0 1 1 0 8.064A4.5 4.5 0 0 1 10 5.5Zm8.25 2.488a2.5 2.5 0 1 0 0-4.975A4.48 4.48 0 0 1 19 5.5a4.48 4.48 0 0 1-.75 2.488ZM8.435 13.25a1.25 1.25 0 0 0-.885.364l-2.05 2.05V19.5h5.627l5.803-1.45l3.532-1.508a.555.555 0 0 0-.416-1.022l-.02.005L13.614 17H10v-2h3.125a.875.875 0 1 0 0-1.75h-4.69Zm7.552 1.152l3.552-.817a2.56 2.56 0 0 1 3.211 2.47a2.557 2.557 0 0 1-1.414 2.287l-.027.014l-3.74 1.595l-6.196 1.549H0v-7.25h4.086l2.052-2.052a3.25 3.25 0 0 1 2.3-.948h.002h-.002h4.687a2.875 2.875 0 0 1 2.862 3.152ZM3.5 16.25H2v3.25h1.5v-3.25Z"/></svg>
+                            <select name="upload_transaction_titulaire--input" class="outline-0 w-full pl-[2%]" required id="select_Transaction_Titulaire">
+                                <option value="" disabled selected>Sélectionnez le titulaire de la transaction</option>
+                                <?php foreach ($comptes as $compte): ?>
+                                <option value="<?= $compte['id'] ?>"><?= $compte['account_number'] . " - " . $compte['client_fullName'] . "(" . $compte['solde'] . "MAD)" ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="w-full flex flex-col gap-2.5">
+                        <label for="" class="text-[17px] font-semibold">Montant <span class="text-red-600">*</span></label>
+                        <div class="w-full border-2 border-[#c0c0c0] rounded-2xl p-[2%] flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16"><path fill="none" stroke="#000000" stroke-linejoin="round" stroke-miterlimit="10" d="M6 10h2.5c.55 0 1-.45 1-1s-.45-1-1-1h-1c-.55 0-1-.45-1-1s.45-1 1-1H10M8 4.5v1.167M8 9.5v2M14.5 8a6.5 6.5 0 1 1-13 0a6.5 6.5 0 0 1 13 0Z"/></svg>
+                            <input type="number" name="upload_transaction_amount--input" class="w-full outline-0 pl-[2%]" placeholder="Entrer le montant de transsaction(ex:500)" required>
+                            <p>MAD</p>
+                        </div>
+                    </div>
+                    <div class="w-full flex flex-col gap-2.5">
+                        <label for="" class="text-[17px] font-semibold">Description(optionnel) <span class="text-red-600">*</span></label>
+                        <div class="w-full border-2 border-[#c0c0c0] rounded-2xl p-[2%] flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="#000000" stroke-linecap="round" stroke-width="1.5" d="M2.75 5.25h18.5M2.75 12h18.5m-18.5 6.75h13.5"/></svg>
+                            <input type="text" class="w-full outline-0 pl-[2%]" placeholder="Entrer un description pour le transaction" name="upload_transaction_description--input">
+                        </div>
+                    </div>
+                    <div class="flex gap-3 mt-4 justify-end">
+                        <button type="submit" class="px-4 py-2 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 active:scale-95 shadow-sm hover:shadow transition-all duration-200 cursor-pointer">
+                            Save transaction
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <div class="w-1/2 flex flex-col items-center bg-white p-[2%] rounded-2xl gap-10 h-[630px]">
+                <div class="w-full justify-start flex gap-2.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="#45557F" stroke-width="2" d="M15 17c0-3 4-5 4-9s-3-7-7-7s-7 3-7 7s4 6 4 9v3c0 2 1 3 3 3s3-1 3-3v-3Zm-6 1h6"/></svg>
+                    <p class="text-xl">Information du compte</p>
+                </div>
+                <div class="flex flex-col ga-5 w-full gap-10">
+                    <div class="w-full p-[2%] pl-[3%] bg-[rgba(192,192,192,0.2)] h-[100px] rounded-2xl flex flex-col gap-5 hover:bg-[rgba(192,192,192,0.3)] hover:shadow-xs hover:shadow-[#c0c0c0]">
+                        <h2 class="text-xl text-[#45557F]">Numero de compte</h2>
+                        <p id="compteNumber"></p>
+                    </div>
+                    <div class="w-full p-[2%] pl-[3%] bg-[rgba(192,192,192,0.2)] h-[100px] rounded-2xl flex flex-col gap-5 hover:bg-[rgba(192,192,192,0.3)] hover:shadow-xs hover:shadow-[#c0c0c0]">
+                        <h2 class="text-xl text-[#45557F]">Titulaire</h2>
+                        <p id="compteTitulaire"></p>
+                    </div>
+                    <div class="w-full p-[2%] pl-[3%] bg-[rgba(192,192,192,0.2)] h-[100px] rounded-2xl flex flex-col gap-5 hover:bg-[rgba(192,192,192,0.3)] hover:shadow-xs hover:shadow-[#c0c0c0]">
+                        <h2 class="text-xl text-[#45557F]">Type</h2>
+                        <p id="compteType"></p>
+                    </div>
+                    <div class="w-full p-[2%] pl-[3%] bg-[rgba(192,192,192,0.2)] h-[100px] rounded-2xl flex flex-col gap-5 hover:bg-[rgba(192,192,192,0.3)] hover:shadow-xs hover:shadow-[#c0c0c0]">
+                        <h2 class="text-xl text-[#45557F]">Solde actuel</h2>
+                        <p id="compteSolde" class="flex justify-between items-center"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
     <?php
         include 'frontend/layout/footer.php';
     ?>

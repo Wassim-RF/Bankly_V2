@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS transactions (
     transaction_type ENUM('Depot' , 'Retrait') NOT NULL,
     amout DECIMAL(12,2) NOT NULL,
     transaction_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    description VARCHAR(100),
     account_id INT NOT NULL,
     FOREIGN KEY (account_id) REFERENCES comptes(id)
 );

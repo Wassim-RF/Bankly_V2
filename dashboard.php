@@ -11,6 +11,14 @@
     $tcn->execute();
     $totalAccounts = $tcn->fetchColumn();
 
+    $dta = $pdo -> prepare("SELECT SUM(amout) FROM transactions WHERE transaction_type = 'Depot'");
+    $dta->execute();
+    $totalDepotTransaction = $dta->fetchColumn() ?? 0;
+
+    $rta = $pdo -> prepare("SELECT SUM(amout) FROM transactions WHERE transaction_type = 'Retrait'");
+    $rta->execute();
+    $totalRetraitTransaction = $rta->fetchColumn() ?? 0;
+
     include 'frontend/layout/header.php';
 ?>
 <body class="flex">
@@ -90,7 +98,7 @@
         <div class="grid grid-cols-4 gap-10">
             <div class="group w-full h-[200px] bg-white border border-[#c0c0c0] rounded-2xl shadow-md hover:shadow-lg shadow-[#c0c0c0] p-6 flex flex-col justify-between">
                 <div class="flex items-center gap-4">
-                    <div class="bg-blue-600 w-12 h-12 rounded-xl flex items-center justify-center group-hover:scale-[1.01] transition">
+                    <div class="bg-[rgba(59,130,246,0.7)] group-hover:bg-[rgba(59,130,246,1)] w-12 h-12 rounded-xl flex items-center justify-center group-hover:scale-[1.01] transition">
                         <svg class="fill-[#ffffff]" xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 56 56"><path d="M38.446 29.232c4.786 0 8.686-4.263 8.686-9.45c0-5.128-3.88-9.19-8.686-9.19c-4.766 0-8.687 4.122-8.687 9.23c.02 5.167 3.921 9.41 8.687 9.41m-23.164.442c4.142 0 7.54-3.72 7.54-8.284c0-4.464-3.358-8.063-7.54-8.063c-4.142 0-7.56 3.66-7.54 8.103c.02 4.545 3.398 8.244 7.54 8.244m23.164-3.478c-2.936 0-5.45-2.815-5.45-6.374c0-3.5 2.474-6.193 5.45-6.193c2.996 0 5.449 2.654 5.449 6.152c0 3.56-2.473 6.415-5.449 6.415m-23.164.482c-2.453 0-4.544-2.352-4.544-5.248c0-2.835 2.07-5.107 4.544-5.107c2.533 0 4.564 2.232 4.564 5.067c0 2.936-2.091 5.288-4.564 5.288M4.102 48.113h15.785c-.966-.543-1.71-1.75-1.569-2.976H3.6c-.402 0-.603-.16-.603-.543c0-4.986 5.69-9.651 12.266-9.651c2.533 0 4.805.603 6.756 1.749a10.463 10.463 0 0 1 2.272-2.131c-2.594-1.71-5.71-2.594-9.028-2.594C6.837 31.967 0 38.079 0 44.775c0 2.232 1.367 3.338 4.102 3.338m21.716 0h25.256c3.337 0 4.926-1.005 4.926-3.217c0-5.268-6.656-12.89-17.554-12.89c-10.919 0-17.574 7.622-17.574 12.89c0 2.212 1.588 3.217 4.946 3.217m-.965-3.036c-.523 0-.744-.14-.744-.563c0-3.298 5.107-9.47 14.337-9.47c9.21 0 14.316 6.172 14.316 9.47c0 .422-.2.563-.724.563Z"/></svg>
                     </div>
                     <div>
@@ -105,7 +113,7 @@
             </div>
             <div class="group w-full h-[200px] bg-white border border-[#c0c0c0] rounded-2xl shadow-md hover:shadow-lg shadow-[#c0c0c0] p-6 flex flex-col justify-between">
                 <div class="flex items-center gap-4">
-                    <div class="bg-green-600 w-12 h-12 rounded-xl flex items-center justify-center group-hover:scale-[1.01] transition">
+                    <div class="bg-[rgba(139,92,246,0.7)] group-hover:bg-[rgba(139,92,246,1)] w-12 h-12 rounded-xl flex items-center justify-center group-hover:scale-[1.01] transition">
                         <svg class="fill-[#ffffff]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 26 26"><path d="M16.688 0c-.2.008-.393.044-.594.094L2.5 3.406C.892 3.8-.114 5.422.281 7.031l1.906 7.782A2.99 2.99 0 0 0 4 16.875V15c0-2.757 2.243-5 5-5h12.594l-1.875-7.719A3.004 3.004 0 0 0 16.687 0zm1.218 4.313l.813 3.406l-3.375.812l-.844-3.375l3.406-.843zM9 12c-1.656 0-3 1.344-3 3v8c0 1.656 1.344 3 3 3h14c1.656 0 3-1.344 3-3v-8c0-1.656-1.344-3-3-3H9zm0 1.594h14c.771 0 1.406.635 1.406 1.406v1H7.594v-1c0-.771.635-1.406 1.406-1.406zM7.594 19h16.812v4c0 .771-.635 1.406-1.406 1.406H9A1.414 1.414 0 0 1 7.594 23v-4z"/></svg>
                     </div>
                     <div>
@@ -120,13 +128,79 @@
                     <span class="text-sm text-gray-400">Accounts</span>
                 </div>
             </div>
-            <div class="w-full h-[200px] bg-white border border-[#c0c0c0] rounded-2xl shadow-md hover:shadow-lg shadow-[#c0c0c0] p-[5%] flex flex-col items-center"></div>
-            <div class="w-full h-[200px] bg-white border border-[#c0c0c0] rounded-2xl shadow-md hover:shadow-lg shadow-[#c0c0c0] p-[5%] flex flex-col items-center"></div>
+            <div class="group w-full h-[200px] bg-white border border-[#c0c0c0] rounded-2xl shadow-md hover:shadow-lg shadow-[#c0c0c0] p-6 flex flex-col justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="bg-[rgba(34,197,94,0.7)] group-hover:bg-[rgba(34,197,94,1)] w-12 h-12 rounded-xl flex items-center justify-center group-hover:scale-[1.01] transition">
+                        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14"><path fill="#ffffff" fill-rule="evenodd" d="M13.762 5.865a.5.5 0 0 0 .231-.508l-.66-3.94a.5.5 0 0 0-.584-.409l-3.74.695a.5.5 0 0 0-.205.894l1.652 1.218L7.61 7.88L5.012 6.058a.625.625 0 0 0-.87.153l-4.03 5.752a.625.625 0 1 0 1.024.717l3.67-5.24l2.598 1.822a.625.625 0 0 0 .87-.154l3.187-4.55l1.741 1.284a.5.5 0 0 0 .559.023" clip-rule="evenodd"/></svg>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Statistics</p>
+                        <p class="text-lg font-semibold">Total Deposits</p>
+                    </div>
+                </div>
+
+                <div class="flex items-end justify-between">
+                    <p class="text-4xl font-black text-gray-900">
+                        <?php echo $totalDepotTransaction; ?>
+                    </p>
+                    <span class="text-sm text-gray-400">Deposits</span>
+                </div>
+            </div>
+            <div class="group w-full h-[200px] bg-white border border-[#c0c0c0] rounded-2xl shadow-md hover:shadow-lg shadow-[#c0c0c0] p-6 flex flex-col justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="bg-[rgba(239,68,68,0.7)] group-hover:bg-[rgba(239,68,68,1)] w-12 h-12 rounded-xl flex items-center justify-center group-hover:scale-[1.01] transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 14 14" fill="#ffffff"><g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 10.5h4v-4"/><path d="M13.5 10.5L7.85 4.85a.5.5 0 0 0-.7 0l-2.3 2.3a.5.5 0 0 1-.7 0L.5 3.5"/></g></svg>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Statistics</p>
+                        <p class="text-lg font-semibold">Total Retrait</p>
+                    </div>
+                </div>
+
+                <div class="flex items-end justify-between">
+                    <p class="text-4xl font-black text-gray-900">
+                        <?php echo $totalRetraitTransaction; ?>
+                    </p>
+                    <span class="text-sm text-gray-400">Retrait</span>
+                </div>
+            </div>
+
         </div>
         <div class="grid grid-cols-3 gap-14">
-            <div class="w-full h-[250px] bg-white border border-[#c0c0c0] rounded-3xl shadow-lg hover:shadow-xl shadow-[#c0c0c0]"></div>
-            <div class="w-full h-[250px] bg-white border border-[#c0c0c0] rounded-3xl shadow-lg hover:shadow-xl shadow-[#c0c0c0]"></div>
-            <div class="w-full h-[250px] bg-white border border-[#c0c0c0] rounded-3xl shadow-lg hover:shadow-xl shadow-[#c0c0c0]"></div>
+            <a href="frontend/pages/clients/add.php" class="group w-full h-[250px] bg-white border border-[#c0c0c0] rounded-3xl shadow-lg hover:shadow-xl shadow-[#c0c0c0] cursor-pointer p-6 flex flex-col justify-center items-center gap-4 transition">
+                <div class="w-16 h-16 rounded-2xl bg-[rgba(59,130,246,0.15)] group-hover:bg-[rgba(59,130,246,0.25)] flex items-center justify-center transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><g fill="none" stroke="rgba(59,130,246,1)" stroke-linecap="round" stroke-width="2"><path d="M3 21V20C3 17.7909 4.79086 16 7 16H11C13.2091 16 15 17.7909 15 20V21"/><path d="M9 13C7.34315 13 6 11.6569 6 10C6 8.34315 7.34315 7 9 7C10.6569 7 12 8.34315 12 10C12 11.6569 10.6569 13 9 13Z"/><path d="M15 6H21"/><path d="M18 3V9"/></g></svg>
+                </div>
+                <div class="text-center">
+                    <p class="text-xl font-bold text-gray-900">Add Client</p>
+                    <p class="text-sm text-gray-500 mt-1">
+                        Create a new client profile
+                    </p>
+                </div>
+            </a>
+            <a href="frontend/pages/accounts/add.php"class="group w-full h-[250px] bg-white border border-[#c0c0c0] rounded-3xl shadow-lg hover:shadow-xl shadow-[#c0c0c0] cursor-pointer p-6 flex flex-col justify-center items-center gap-4 transition">
+                <div class="w-16 h-16 rounded-2xl bg-[rgba(139,92,246,0.15)] group-hover:bg-[rgba(139,92,246,0.25)] flex items-center justify-center transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="rgba(139,92,246,1)" d="M4 20q-.825 0-1.413-.588T2 18V6q0-.825.588-1.413T4 4h16q.825 0 1.413.588T22 6v6H4v6h10v2H4ZM4 8h16V6H4v2Zm15 14v-3h-3v-2h3v-3h2v3h3v2h-3v3h-2ZM4 18V6v12Z"/></svg>
+                </div>
+                <div class="text-center">
+                    <p class="text-xl font-bold text-gray-900">Add Account</p>
+                    <p class="text-sm text-gray-500 mt-1">
+                        Create a new bank account
+                    </p>
+                </div>
+            </a>
+            <a href="transactions.php" class="group w-full h-[250px] bg-white border border-[#c0c0c0] rounded-3xl shadow-lg hover:shadow-xl shadow-[#c0c0c0] cursor-pointer p-6 flex flex-col justify-center items-center gap-4 transition">
+                <div class="w-16 h-16 rounded-2xl bg-[rgba(34,197,94,0.15)] group-hover:bg-[rgba(34,197,94,0.25)] flex items-center justify-center transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="rgba(34,197,94,1)"><g fill="none" stroke="rgba(34,197,94,1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"><rect width="36" height="36" x="6" y="6" rx="3"/><path d="M27 31h8M17 13v8m4-4h-8m21-3L14 34"/></g></svg>
+                </div>
+                <div class="text-center">
+                    <p class="text-xl font-bold text-gray-900">Add Transaction</p>
+                    <p class="text-sm text-gray-500 mt-1">
+                        Create a new deposit or withdrawal
+                    </p>
+                </div>
+            </a>
+
         </div>
         <div class="grid grid-cols-2 gap-5">
             <div class="w-full h-[350px] bg-white border border-[#c0c0c0] rounded-4xl shadow-xl p-[4%] flex flex-col gap-5">
