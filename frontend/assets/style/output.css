@@ -257,6 +257,12 @@
   .table {
     display: table;
   }
+  .h-1 {
+    height: calc(var(--spacing) * 1);
+  }
+  .h-1\/2 {
+    height: calc(1/2 * 100%);
+  }
   .h-2 {
     height: calc(var(--spacing) * 2);
   }
@@ -277,6 +283,12 @@
   }
   .h-40 {
     height: calc(var(--spacing) * 40);
+  }
+  .h-350 {
+    height: calc(var(--spacing) * 350);
+  }
+  .h-\[1\] {
+    height: 1;
   }
   .h-\[35px\] {
     height: 35px;
@@ -304,6 +316,9 @@
   }
   .h-\[350px\] {
     height: 350px;
+  }
+  .h-\[450px\] {
+    height: 450px;
   }
   .h-\[630px\] {
     height: 630px;

@@ -3,7 +3,6 @@
     "tailwindcss": "^4.1.17"
   },
   "dependencies": {
-    "chart.js": "^4.5.1",
-    "dayjs": "^1.11.19"
+    "chart.js": "^4.5.1"
   }
 }

@@ -2,11 +2,14 @@
     session_start();
     require 'backend/config.php';
     require 'backend/database.php';
-    if (isset($_SESSION['utilisateur'])) {
-        $slu = $pdo->prepare("SELECT co.id , co.account_number , co.solde , co.account_statue , c.full_name AS client_fullName FROM comptes co Join clients c ON client_id = c.id WHERE co.utilisateur_id = ?");
-        $slu->execute([$_SESSION['utilisateur']['id']]);
-        $comptes = $slu->fetchAll();
+    if (!isset($_SESSION['utilisateur'])) {
+        header("Location: /index.php");
     }
+    
+    $slu = $pdo->prepare("SELECT co.id , co.account_number , co.solde , co.account_statue , c.full_name AS client_fullName FROM comptes co Join clients c ON client_id = c.id WHERE co.utilisateur_id = ?");
+    $slu->execute([$_SESSION['utilisateur']['id']]);
+    $comptes = $slu->fetchAll();
+
     include 'frontend/layout/header.php';
 ?>
 <body class="flex">

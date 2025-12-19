@@ -1,4 +1,9 @@
 export async function showComptInfo() {
+    const account_infoTransaction = document.getElementById("account_info--transaction");
+    const show_info_accountContainer = document.getElementById("show_info_account--container");
+    show_info_accountContainer.classList.replace("h-[100px]" , "h-[630px]");
+    account_infoTransaction.classList.replace("hidden" , "flex");
+    
     let id = document.getElementById("select_Transaction_Titulaire").value;
 
     fetch("/frontend/pages/transactions/showSelectInfo.php?id=" + id)

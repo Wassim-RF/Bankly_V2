@@ -2,6 +2,9 @@
     session_start();
     require 'backend/config.php';
     require 'backend/database.php';
+    if (!isset($_SESSION['utilisateur'])) {
+        header("Location: /index.php");
+    }
 
     $stmt = $pdo->prepare("SELECT count(*) FROM clients");
     $stmt->execute();
@@ -200,22 +203,21 @@
                     </p>
                 </div>
             </a>
-
         </div>
         <div class="grid grid-cols-2 gap-5">
             <div class="w-full h-[350px] bg-white border border-[#c0c0c0] rounded-4xl shadow-xl p-[4%] flex flex-col gap-5">
                 <h1 class="text-2xl font-semibold">Transactions (Dérniere 7 jour)</h1>
-                <canvas class="w-full h-[250px]"></canvas>
+                <canvas class="w-full h-[250px]" id="transaction_dernier_7--jour"></canvas>
             </div>
             <div class="w-full h-[350px] bg-white border border-[#c0c0c0] rounded-4xl shadow-xl p-[4%] flex flex-col gap-5">
                 <h1 class="text-2xl font-semibold">Répartition des comptes</h1>
-                <canvas class="w-full h-[250px]"></canvas>
+                <canvas class="w-full h-[250px]" id="repartition_des_Comptes"></canvas>
             </div>
         </div>
         <div class="grid grid-cols-3 gap-5">
             <div class="col-span-2 w-full h-[350px] bg-white border border-[#c0c0c0] rounded-4xl shadow-xl p-[4%] flex flex-col gap-5">
                 <h1 class="text-2xl font-semibold">Montants transactionnels (MAD)</h1>
-                <canvas class="w-full h-[250px]"></canvas>
+                <canvas class="w-full h-[250px]" id="mantant_transaction--7--JOur"></canvas>
             </div>
             <div class="col-span-1 w-full h-[350px] bg-white border border-[#c0c0c0] rounded-4xl shadow-xl p-[4%] flex flex-col gap-5">
                 <h1 class="text-2xl font-semibold">Activité récente</h1>
@@ -225,5 +227,6 @@
     <?php
         include 'frontend/layout/footer.php';
     ?>
-    <!-- <script type="module" src="frontend\assets\js\script.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="frontend\assets\js\script.js"></script>
 </body>

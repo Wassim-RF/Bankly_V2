@@ -1,3 +1,3 @@
 import {setupEvent} from './events.js';
 
-setupEvent();
+window.addEventListener("DOMContentLoaded" , setupEvent);

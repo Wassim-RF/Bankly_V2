@@ -176,12 +176,12 @@
                     </div>
                 </div>
             </form>
-            <div class="w-1/2 flex flex-col items-center bg-white p-[2%] rounded-2xl gap-10 h-[630px]">
+            <div class="w-1/2 flex flex-col items-center bg-white p-[2%] rounded-2xl gap-10 h-[100px]" id="show_info_account--container">
                 <div class="w-full justify-start flex gap-2.5">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="#45557F" stroke-width="2" d="M15 17c0-3 4-5 4-9s-3-7-7-7s-7 3-7 7s4 6 4 9v3c0 2 1 3 3 3s3-1 3-3v-3Zm-6 1h6"/></svg>
                     <p class="text-xl">Information du compte</p>
                 </div>
-                <div class="flex flex-col ga-5 w-full gap-10">
+                <div class="hidden flex-col ga-5 w-full gap-10"  id="account_info--transaction">
                     <div class="w-full p-[2%] pl-[3%] bg-[rgba(192,192,192,0.2)] h-[100px] rounded-2xl flex flex-col gap-5 hover:bg-[rgba(192,192,192,0.3)] hover:shadow-xs hover:shadow-[#c0c0c0]">
                         <h2 class="text-xl text-[#45557F]">Numero de compte</h2>
                         <p id="compteNumber"></p>

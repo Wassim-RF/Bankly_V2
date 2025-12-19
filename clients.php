@@ -2,11 +2,13 @@
     session_start();
     require 'backend/config.php';
     require 'backend/database.php';
-    if (isset($_SESSION['utilisateur'])) {
-        $slu = $pdo->prepare("SELECT * FROM clients WHERE utilisateur_id = ?");
-        $slu->execute([$_SESSION['utilisateur']['id']]);
-        $clients = $slu->fetchAll();
+    if (!isset($_SESSION['utilisateur'])) {
+        header("Location: /index.php");
     }
+    $slu = $pdo->prepare("SELECT * FROM clients WHERE utilisateur_id = ?");
+    $slu->execute([$_SESSION['utilisateur']['id']]);
+    $clients = $slu->fetchAll();
+
     include 'frontend/layout/header.php';
 ?>
 <body class="flex">
