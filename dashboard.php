@@ -219,7 +219,9 @@
         <div class="grid grid-cols-3 gap-5">
             <div class="col-span-2 w-full h-[350px] bg-white border border-[#c0c0c0] rounded-4xl shadow-xl p-[4%] flex flex-col gap-5">
                 <h1 class="text-2xl font-semibold">Montants transactionnels (MAD)</h1>
-                <canvas class="w-full h-[250px] flex items-center justify-center" id="montant_transaction--7--JOur"></canvas>
+                <div class="w-full h-[250px] relative">
+                    <canvas id="montant_transaction--7--JOur"></canvas>
+                </div>
             </div>
             <div class="col-span-1 w-full h-[350px] bg-white border border-[#c0c0c0] rounded-4xl shadow-xl p-[4%] flex flex-col gap-5">
                 <h1 class="text-2xl font-semibold">Activité récente</h1>

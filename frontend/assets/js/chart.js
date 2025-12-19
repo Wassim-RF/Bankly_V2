@@ -5,7 +5,6 @@ export function transactionLastSevsnDayChart() {
     .then(res => res.json())
     .then(data => {
         console.log(data);
-        data.sort((a, b) => new Date(a.date) - new Date(b.date));
         const totals = data.map(item => item.total);
         const dates = data.map(item => new Date(item.date).toLocaleDateString('fr-FR', {
             weekday: 'short',
@@ -17,6 +16,7 @@ export function transactionLastSevsnDayChart() {
             data: {
                 labels: dates,
                 datasets: [{
+                    label: 'Numero des transaction',
                     data: totals,
                     borderWidth: 1
                 }]
@@ -80,5 +80,32 @@ export function repartitiondesComptes() {
 }
 
 export function montantDesTransaction() {
-    const mantant_transaction_7JOur = document.getElementById("mantant_transaction--7--JOur").getContext("2d");
+    const mantant_transaction_7JOur = document.getElementById("montant_transaction--7--JOur").getContext("2d");
+
+    fetch('/backend/charts/montantDesTransaction.php')
+    .then(res => res.json())
+    .then(data => {
+        console.log(data);
+        const montantTotal = data.map(item => item.total);
+        const date = data.map(item => new Date(item.date).toLocaleDateString('fr-FR') , {
+            weekday: 'short',
+            day: 'numeric'
+        })
+        new Chart(mantant_transaction_7JOur, {
+            type: 'bar',
+            data: {
+                labels: date,
+                datasets: [{
+                    label: 'Montant total',
+                    data: montantTotal,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                y: { beginAtZero: true }
+                }
+            }
+        })
+    })
 }
