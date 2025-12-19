@@ -1,4 +1,4 @@
-export function transactionLastSevsnDayChart() {
+export async function transactionLastSevsnDayChart() {
     const transaction_dernier_7Jour = document.getElementById("transaction_dernier_7--jour").getContext("2d");
     
     fetch('/backend/charts/transaction_number.php')
@@ -30,7 +30,7 @@ export function transactionLastSevsnDayChart() {
     })
 }
 
-export function repartitiondesComptes() {
+export async function repartitiondesComptes() {
     const repartition_des_Comptes = document.getElementById("repartition_des_Comptes").getContext("2d");
 
     fetch('/backend/charts/repartitionDesComptes.php')
@@ -79,7 +79,7 @@ export function repartitiondesComptes() {
     })
 }
 
-export function montantDesTransaction() {
+export async function montantDesTransaction() {
     const mantant_transaction_7JOur = document.getElementById("montant_transaction--7--JOur").getContext("2d");
 
     fetch('/backend/charts/montantDesTransaction.php')

@@ -9,10 +9,17 @@
     $slu->execute([$_SESSION['utilisateur']['id']]);
     $clients = $slu->fetchAll();
 
+    if (isset($_GET['search'])) {
+        $search = $_GET['search'];
+        $stmt = $pdo->prepare("SELECT * FROM clients WHERE full_name LIKE :name");
+        $stmt->execute(['name' => "%$search%"]);
+        $clients = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     include 'frontend/layout/header.php';
 ?>
 <body class="flex">
-    <nav class="bg-white w-[15%] h-screen pt-[2%] pb-[1%] border-r border-r-[#c0c0c0] flex flex-col justify-between overflow-hidden fixed" id="dashboard_nav_bar">
+    <nav class="bg-white w-[15%] h-screen pt-[2%] pb-[1%] border-r border-r-[#c0c0c0] flex flex-col justify-between overflow-hidden fixed">
         <div class="flex flex-col gap-10">
             <header class="flex flex-row gap-9 items-center border-b border-b-[#c0c0c0] p-[7%]">
                 <div class="flex flex-row gap-2.5" id="navBar_logo">
@@ -89,11 +96,13 @@
                 </a>
             </div>
         </div>
-        <form method="get" class="flex justify-between items-center bg-white p-[2%] rounded-2xl shadow-md">
-            <div class="flex flex-row gap-5 w-1/2 border-2 border-[#c0c0c0] rounded-2xl p-[1%] bg-[#F9FAFB]">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 20 20"><path fill="#c0c0c0" d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33l-1.42 1.42l-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"/></svg>
-                <input type="search" placeholder="Entre le nom, email, CIN..." class="outline-0 w-full">
-            </div>
+        <div class="flex justify-between items-center bg-white p-[2%] rounded-2xl shadow-md">
+            <form method="get" class="w-1/2 h-[46px]">
+                <div class="flex flex-row items-center gap-5 w-full h-full border-2 border-[#c0c0c0] rounded-2xl p-[1%] bg-[#F9FAFB]">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 20 20"><path fill="#c0c0c0" d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33l-1.42 1.42l-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"/></svg>
+                    <input type="search" name="search" placeholder="Entre le nom, email, CIN..." class="outline-0 w-full">
+                </div>
+            </form>
             <div>
                 <select class="outline-0 bg-[#F9FAFB] border-2 border-[#c0c0c0] rounded-md p-[5%] w-[200px]">
                     <option>Trier par :</option>
@@ -102,7 +111,7 @@
                     <option>Trier par : Nombre du comptes</option>
                 </select>
             </div>
-        </form>
+        </div>
         <div class="overflow-x-auto rounded-2xl border border-gray-300">
             <table class="w-full border-collapse table-fixed overflow-x-auto rounded-2xl border border-gray-300">
                 <thead class="bg-white border-b border-gray-300">

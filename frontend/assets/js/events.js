@@ -9,6 +9,8 @@ export function setupEvent() {
     const transactionChart = document.getElementById("transaction_dernier_7--jour");
     const repartition_des_Comptes = document.getElementById("repartition_des_Comptes");
     const mantant_transaction_7JOur = document.getElementById("montant_transaction--7--JOur");
+    const minimize_navBarButton = document.getElementById("minimize_navBar--button");
+    const main_pagesminmax = document.querySelectorAll(".main_pages-min-max");
     
     if (selectTitulaire) {
         selectTitulaire.addEventListener("change", showComptInfo);
