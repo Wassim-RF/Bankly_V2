@@ -1,6 +1,3 @@
-const repartition_des_Comptes = document.getElementById("repartition_des_Comptes");
-const mantant_transaction_7JOur = document.getElementById("mantant_transaction--7--JOur");
-
 export function transactionLastSevsnDayChart() {
     const transaction_dernier_7Jour = document.getElementById("transaction_dernier_7--jour").getContext("2d");
     
@@ -33,4 +30,55 @@ export function transactionLastSevsnDayChart() {
     })
 }
 
-export function repartitiondesComptes() {}
+export function repartitiondesComptes() {
+    const repartition_des_Comptes = document.getElementById("repartition_des_Comptes").getContext("2d");
+
+    fetch('/backend/charts/repartitionDesComptes.php')
+    .then(res => res.json())
+    .then(data => {
+        console.log(data);
+        const account_type = data.map(item => item.account_type);
+        const number_type = data.map(item => item.total);
+
+        new Chart(repartition_des_Comptes, {
+            type: 'pie',
+            data: {
+                labels: account_type,
+                datasets: [{
+                    data: number_type,
+                    radius: '120%',
+                    backgroundColor: [
+                        '#FF6384',
+                        '#36A2EB',
+                        '#FFCE56',
+                        '#4BC0C0'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                layout: {
+                    padding: {
+                        top: 20,
+                        bottom: 30
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        align: 'center',
+                        labels: {
+                            padding: 20
+                        }
+                    }
+                }
+            }
+        });
+
+    })
+}
+
+export function montantDesTransaction() {
+    const mantant_transaction_7JOur = document.getElementById("mantant_transaction--7--JOur").getContext("2d");
+}
